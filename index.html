@@ -121,16 +121,40 @@
       return Math.random().toString(36).substring(2, 8).toUpperCase();
     }
 
-    generateBtn.addEventListener('click', () => {
+    generateBtn.addEventListener('click', async () => {
       // Generate a random code
       const code = generateCode();
 
-      // Simulate storing the code (replace this with your actual backend logic)
-      console.log(`Generated Code: ${code}`);
+      // Get the user's Discord ID from the URL (if provided)
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('user_id');
 
-      // Display the code to the user
-      generatedCodeElement.textContent = code;
-      codeDisplay.style.display = 'block';
+      if (!userId) {
+        alert('Please include your Discord User ID in the URL (e.g., ?user_id=123456789).');
+        return;
+      }
+
+      // Send the code to the bot's API endpoint
+      try {
+        const response = await fetch('http://localhost:5000/store_code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, user_id: userId })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to store the code.');
+        }
+
+        console.log('Code stored successfully.');
+
+        // Display the code to the user
+        generatedCodeElement.textContent = code;
+        codeDisplay.style.display = 'block';
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while generating your code. Please try again.');
+      }
     });
   </script>
 </body>
