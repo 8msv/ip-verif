@@ -112,4 +112,4 @@ if __name__ == "__main__":
     flask_thread.start()
 
     # Run the Discord bot
-    bot.run('MTMzMTE0MjYwMzI4MjA1NTE3OA.GJnBA8.9WbBzgUNQM6OVMUVnEKt3EM6pnLAz4fkDZ4vYA')  # Replace with your actual bot token
+    bot.run('YOUR_DISCORD_BOT_TOKEN')  # Replace with your actual bot token
