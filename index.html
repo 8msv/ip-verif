@@ -46,9 +46,30 @@
       margin-bottom: 30px;
     }
 
+    /* Generate Button Styling */
+    #generate-btn {
+      background-color: #5865f2; /* Discord's blurple */
+      color: #ffffff;
+      font-size: 20px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      font-weight: bold;
+    }
+
+    #generate-btn:hover {
+      background-color: #4752c4; /* Darker blurple on hover */
+    }
+
+    #generate-btn:active {
+      transform: scale(0.98); /* Slight shrink effect on click */
+    }
+
     /* Code Display Styling */
     #code-display {
-      margin-top: 20px;
+      margin-top: 30px;
       display: none;
     }
 
@@ -62,20 +83,30 @@
       font-size: 18px;
       color: #b9bbbe; /* Discord's light gray */
     }
+
+    /* Generated Code Styling */
+    #generated-code {
+      font-size: 24px;
+      color: #5865f2; /* Discord's blurple */
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>Verification Required</h1>
-      <p>Click the button below to generate your verification code.</p>
+      <p>Click the button below to generate your unique verification code.</p>
     </div>
+
+    <!-- Generate Button -->
     <button id="generate-btn">Generate Code</button>
 
     <!-- Code Display -->
     <div id="code-display">
       <h2>Your Verification Code:</h2>
-      <p id="generated-code" style="font-size: 24px; color: #5865f2; font-weight: bold;"></p>
+      <p id="generated-code"></p>
       <p>Please use this code with the `/code` command in Discord.</p>
     </div>
   </div>
@@ -94,36 +125,12 @@
       // Generate a random code
       const code = generateCode();
 
-      // Get the user's Discord ID from the URL (if provided)
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get('user_id');
-
-      if (!userId) {
-        alert('Please include your Discord User ID in the URL (e.g., ?user_id=123456789).');
-        return;
-      }
-
-      // Simulate sending the code to the bot's backend (you can replace this with an API call)
-      console.log(`Generated Code: ${code} for User ID: ${userId}`);
+      // Simulate storing the code (replace this with your actual backend logic)
+      console.log(`Generated Code: ${code}`);
 
       // Display the code to the user
       generatedCodeElement.textContent = code;
       codeDisplay.style.display = 'block';
-
-      // Simulate storing the code (replace this with your actual backend logic)
-      fetch('https://your-bot-api.com/store_code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, userId })
-      }).then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to store the code.');
-        }
-        console.log('Code stored successfully.');
-      }).catch(error => {
-        console.error(error);
-        alert('An error occurred while generating your code. Please try again.');
-      });
     });
   </script>
 </body>
